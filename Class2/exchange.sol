@@ -65,34 +65,11 @@ contract exchange{
             uint lowestBuyPrice = tokenList[_token].minBuyPrice;
             
             if(lowestBuyPrice==0||lowestBuyPrice>_price){
-                if (currentBuyPrice==0){
-                    tokenList[_token].maxBuyPrice=_price;
-                    tokenList[_token].buyBook[_price].higherPrice = _price;
-                    tokenList[_token].buyBook[_price].lowerPrice = 0;
-                }else{
-                    tokenList[_token].buyBook[lowestBuyPrice].lowerPrice=_price;
-                    tokenList[_token].buyBook[_price].higherPrice=lowestBuyPrice;
-                    tokenList[_token].buyBook[_price].lowerPrice=0;
-                }
-                tokenList[_token].minBuyPrice=_price;
+
             }else if(currentBuyPrice<_price){
-                tokenList[_token].buyBook[currentBuyPrice].higherPrice=_price;
-                tokenList[_token].buyBook[_price].higherPrice=_price;
-                tokenList[_token].buyBook[_price].lowerPrice=currentBuyPrice;
-                tokenList[_token].maxBuyPrice=_price;
+
             }else{
-                uint buyPrice = tokenList[_token].maxBuyPrice;
-                bool finished=false;
-                while(buyPrice>0&&!finished){
-                    if(buyPrice<_price && tokenList[_token].buyBook[buyPrice].higherPrice>_price){
-                        tokenList[_token].buyBook[_price].lowerPrice=buyPrice;
-                        tokenList[_token].buyBook[_price].higherPrice=tokenList[_token].buyBook[buyPrice].higherPrice;
-                        tokenList[_token].buyBook[tokenList[_token].buyBook[buyPrice].higherPrice].lowerPrice=_price;
-                        tokenList[_token].buyBook[buyPrice].higherPrice=_price;
-                        finished=true;
-                    }
-                    buyPrice=tokenList[_token].buyBook[buyPrice].lowerPrice;
-                }
+
             }
         }
     }
