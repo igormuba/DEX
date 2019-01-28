@@ -46,23 +46,7 @@ contract exchange{
     
     //<-function to buy tokens
     function buyToken(address _token, uint _price, uint _amount) public{
-        //loading necessary variables
-        Token storage loadedToken = tokenList[_token];
-        uint ethRequired = _price*_amount;
-        
-        //security requirements
-        require(ethRequired>=_amount);
-        require(ethRequired>=_price);
-        require(ethBalance[msg.sender]>=ethRequired);
-        require(ethBalance[msg.sender]-ethRequired>=0);
-        require(ethBalance[msg.sender]-ethRequired<=ethBalance[msg.sender]);
-        ethBalance[msg.sender]-=ethRequired;
-        
-        if (loadedToken.amountSellPrice==0||loadedToken.minSellPrice>=_price){
-            storeBuyOrder(_token, _price, _amount, msg.sender);
-        }else{
-            
-        }
+
     }
     //function to buy tokens->
     
