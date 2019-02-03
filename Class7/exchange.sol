@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract ERC20API{
     function allowance(address tokenOwner, address spender) public view returns (uint);
     function transfer(address to, uint tokens) public returns (bool);
-    function transferFrom(address from, address to, uint tokens) public returns (bool);
+    function transferFrom(address _from, address to, uint tokens) public returns (bool);
 }
 
 contract exchange{
@@ -99,8 +99,9 @@ contract exchange{
                 }else{
                     tokenList[_token].sellBook[highestSellPrice].higherPrice = _price;
                     tokenList[_token].sellBook[_price].lowerPrice = highestSellPrice;
-                    tokenList[_token].sellBook[_price].higherPrice = 0;
+                    tokenList[_token].sellBook[_price].higherPrice = _price;
                 }
+                tokenList[_token].maxSellPrice=_price;
             }else if(currentSellPrice>_price){
                 tokenList[_token].sellBook[currentSellPrice].lowerPrice=_price;
                 tokenList[_token].sellBook[_price].higherPrice=currentSellPrice;
@@ -177,12 +178,14 @@ contract exchange{
         uint counter = 0;
         
         if (loadedToken.minSellPrice>0){
-            while(sellPrice<loadedToken.maxSellPrice){
-                ordersPrices[counter] = sellPrice;
-                uint priceVolume = 0;
-                uint offerPointer = loadedToken.sellBook[sellPrice].offerPointer;
+            while(sellPrice<=loadedToken.maxSellPrice){
                 
-                while(offerPointer <loadedToken.sellBook[sellPrice].offerLength){
+                
+                 ordersPrices[counter] = sellPrice;
+                 uint priceVolume = 0;
+                 uint offerPointer = loadedToken.sellBook[sellPrice].offerPointer;
+                
+                while(offerPointer <=loadedToken.sellBook[sellPrice].offerLength){
                     priceVolume += loadedToken.sellBook[sellPrice].offers[offerPointer].amount;
                     offerPointer++;
                 }
@@ -207,7 +210,7 @@ contract exchange{
         uint counter = 0;
         
         if (loadedToken.maxBuyPrice>0){
-            while(buyPrice<loadedToken.maxBuyPrice){
+            while(buyPrice<=loadedToken.maxBuyPrice){
                 ordersPrices[counter]=buyPrice;
                 uint priceVolume=0;
                 uint offerPointer=loadedToken.buyBook[buyPrice].offerPointer;
