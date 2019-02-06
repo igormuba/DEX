@@ -189,7 +189,7 @@ contract exchange{
                     uint orderVolume = loadedToken.buyBook[_price].offers[counter].amount*_price;
                     require(ethBalance[msg.sender]+orderVolume>=ethBalance[msg.sender]);
                     loadedToken.buyBook[_price].offers[counter].amount=0;
-                    tokenBalance[msg.sender][_token]+=orderVolume;
+                    ethBalance[msg.sender]+=orderVolume;
                 }
                 counter++;
             }
