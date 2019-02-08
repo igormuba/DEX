@@ -76,7 +76,7 @@ contract exchange{
         if(loadedToken.amountBuyPrices==0||loadedToken.maxBuyPrice<_price){
             storeSellOrder(_token, _price, _amount, msg.sender);
         }else {//execute order
-            uint sellPrice = loadedToken.minSellPrice;
+            uint sellPrice = loadedToken.maxBuyPrice;
             uint remainingAmount=_amount;
             uint offerPointer;
             while (sellPrice>=_price && remainingAmount > 0){
